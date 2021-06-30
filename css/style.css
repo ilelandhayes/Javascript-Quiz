@@ -1,0 +1,31 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: rgba(236, 163, 16, 0.286);
+}
+
+header {
+    background-color: rgb(244, 115, 72); 
+}
+
+#highscore {
+    display: inline-block;
+    font-size: 32px;
+    color: white;
+    padding: 5px 0 5px 10px;
+}
+#timer { 
+   float: right;
+   font-size: 32px;
+   color: white;
+   padding: 5px 10px 5px 0;
+}
+#seconds {
+    float: right;
+    font-size: 32px;
+    color: white;
+    padding: 5px 10px 5px 0;
+}

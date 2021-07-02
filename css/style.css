@@ -17,15 +17,66 @@ header {
     color: white;
     padding: 5px 0 5px 10px;
 }
+
+#highscore:hover {
+    color: white;
+    cursor: pointer;
+}
+
 #timer { 
    float: right;
    font-size: 32px;
    color: white;
    padding: 5px 10px 5px 0;
 }
+
 #seconds {
     float: right;
     font-size: 32px;
     color: white;
     padding: 5px 10px 5px 0;
+}
+
+.main-section {
+    max-width: 50%;
+    margin: auto;
+    padding: 20px 0px 10px 0px;
+}
+
+.title , .content , .start {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    font-size: 35px;  
+}
+
+button {
+    background-color: rgb(244, 115, 72);
+    color: white;
+    border-radius: 5px;
+    font-size: large;
+    border: 30px;
+}
+
+button:hover {
+    color: tan;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 980px) {
+    .main-section {
+        width: 100%;
+    }   
+}
+
+@media screen and (max-width: 780px) {
+    .main-section {
+        width: 100%;
+    }   
+}
+
+@media screen and (max-width: 640px) {
+    .main-section {
+        width: 100%;
+    }   
 }

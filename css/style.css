@@ -43,7 +43,7 @@ header {
     padding: 20px 0px 10px 0px;
 }
 
-.title , .content , .start {
+.title , .content , .startButton {
     display: flex;
     justify-content: center;
     text-align: center;
@@ -59,7 +59,7 @@ button {
 }
 
 button:hover {
-    color: tan;
+    color: black;
     cursor: pointer;
 }
 

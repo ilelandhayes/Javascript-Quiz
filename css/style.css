@@ -43,6 +43,10 @@ header {
     padding: 20px 0px 10px 0px;
 }
 
+.description {
+    padding: 15px;
+}
+
 .title , .content , .startButton {
     display: flex;
     justify-content: center;
@@ -61,6 +65,20 @@ button {
 button:hover {
     color: black;
     cursor: pointer;
+}
+
+#description {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    font-size: 35px; 
+}
+
+#thankYou {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    font-size: 28px;
 }
 
 @media screen and (max-width: 980px) {

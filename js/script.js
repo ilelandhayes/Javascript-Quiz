@@ -141,10 +141,11 @@ function stopGame () {
 
     questionsEL.textContent = "";
 
-    descriptionEl.textContent = "Finished";
+    descriptionEl.textContent = "Game Over";
 
     var thankYouMessage = document.createElement("h3");
-    thankYouMessage.textContent = 'Final Score is ${score}.';
+    thankYouMessage.setAttribute("id", "thankYou")
+    thankYouMessage.textContent = `Final Score is ${score}`;
 
     questionsEL.appendChild(thankYouMessage);
 }
@@ -164,24 +165,24 @@ function init() {
     });
 }
 
-document.getElementById("questions").addEventListener("click", function (event) {
+    document.getElementById("questions").addEventListener("click", function (event) {
 
-    var element = event.target;
+        var element = event.target;
 
-    if (element.matches("button")) {
-        if (parseInt(element.getAttribute('index')) === correctIndex) {
-            runQuestion();
-            updateTimer();
-            scoreChange(1);           
+        if (element.matches("button")) {
+            if (parseInt(element.getAttribute('index')) === correctIndex) {
+                runQuestion();
+                updateTimer();
+                scoreChange(1);           
         }  else {
-            scoreChange(-1);
+                scoreChange(-1);
             if (timeLeft >= 10) {
                 timeLeft = timeLeft - 10;
             } else {
                 timeLeft = 0;
             }
-            updateTimer(true);
-            runQuestion();
+                updateTimer(true);
+                runQuestion();
         }
     }
 });

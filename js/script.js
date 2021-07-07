@@ -1,6 +1,18 @@
-var timeEL = document.querySelector("#timer")
-var startButtonEl = document.getElementById("startButton");
+// refers to time left, score, answers that are correct
+let timeLeft = 0;
 let score = 0;
+let correctIndex = null;
+
+// refers to timer
+var countdown = null;
+
+// variables on the page
+var timeEL = document.getElementById("timer");
+var startButtonEl = document.getElementById("startButton");
+var titleEL = document.getElementById("title");
+var contentEL = document.getElementById("content");
+var questionsEL = document.getElementById("questions");
+var descriptionEl = document.getElementById("description")
 
 
 // variable for questions
@@ -41,7 +53,7 @@ var question = [{
 
 function playGame() {
 
-    countdown();
+    timer(60);
 
     startButtonEl.style.display = "none";
 
@@ -49,43 +61,40 @@ function playGame() {
 }
 
 // timer function
-function countdown() {
+function timer(duractionInSeconds) {
 
-   var timeLeft = 60;
-    timeEL.textContent =  'Time: ' + timeLeft;
+   timeLeft = duractionInSeconds;
+   countdown = setInterval(function() {
 
-   var timeInterval = setInterval(function() {
-
-    if (timeLeft > -1) {
-        timeEL.textContent = 'Time: ' + timeLeft;
+    if (timeLeft > 1) {
+        updateTimer();
         timeLeft--;
-    } else if (timeLeft === -1) {
+    } else if (timeLeft === 1) {
+        updateTimer();
         timeLeft--;
     } else {
         timeEL.textContent = "Times up"
-        clearInterval(timeInterval);   
+        stopGame();
+        clearInterval(countdown);   
     }
     }, 1000)
 };
 
-// timer updating if question is answered wrong
-function updateTimer(wrongAnswer = false) {
-
+// updating timer if question is answered wrong
+function updateTimer (wrongAnswer = false) {
     if (timeLeft === 0) {
         clearInterval(countdown);
-        timeEl.textContent = `Times up`;
+        timeEL.textContent = `Out of Time`;
         stopGame();
         return;
     }
-
-    timeEl.textContent = `${timeInterval} seconds remaing`;
-
+    timeEL.textContent = `Time: ${timeLeft}`;
     if (wrongAnswer) {
-        timeEl.setAttribute("style", "color: black;");
+        timeEL.setAttribute("style", "color: red;");
     } else {
-        timeEl.setAttribute("style", "color: black;");
+        timeEL.setAttribute("style", "color: white;");
     }
-}
+  }
 
 // pulling random questions
 function pullQuestion () {
@@ -122,8 +131,30 @@ function runQuestion() {
         ansEl.appendChild(ans);
     })
     
-
     correctIndex = randomQuestion.correctAnswer;
+}
+
+// stop game function, either when time is up or all questions are answered
+function stopGame () {
+
+    clearInterval(countdown)
+
+    questionsEL.textContent = "";
+
+    descriptionEl.textContent = "Finished";
+
+    var thankYouMessage = document.createElement("h3");
+    thankYouMessage.textContent = 'Final Score is ${score}.';
+
+    questionsEL.appendChild(thankYouMessage);
+}
+
+// keeping score
+function scoreChange(value) {
+    score = score + value;
+    if (score < 0) {
+        score = 0;
+    }
 }
 
 // adding eventlisteners
@@ -140,10 +171,20 @@ document.getElementById("questions").addEventListener("click", function (event) 
     if (element.matches("button")) {
         if (parseInt(element.getAttribute('index')) === correctIndex) {
             runQuestion();
+            updateTimer();
+            scoreChange(1);           
+        }  else {
+            scoreChange(-1);
+            if (timeLeft >= 10) {
+                timeLeft = timeLeft - 10;
+            } else {
+                timeLeft = 0;
+            }
+            updateTimer(true);
+            runQuestion();
         }
     }
 });
 
 
 init();
-countdown();

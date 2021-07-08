@@ -259,7 +259,7 @@ function scoreChange(value) {
     }
 }
 
-// 
+// function to save scores
 function saveGameElements() {
 
     var saveDivEl = document.createElement("div");

@@ -171,11 +171,11 @@ function init() {
 
         if (element.matches("button")) {
             if (parseInt(element.getAttribute('index')) === correctIndex) {
+                scoreChange(2);
                 runQuestion();
-                updateTimer();
-                scoreChange(1);           
+                updateTimer();           
         }  else {
-                scoreChange(-1);
+                scoreChange(-2);
             if (timeLeft >= 10) {
                 timeLeft = timeLeft - 10;
             } else {

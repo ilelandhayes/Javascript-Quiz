@@ -13,6 +13,7 @@ var titleEL = document.getElementById("title");
 var contentEL = document.getElementById("content");
 var questionsEL = document.getElementById("questions");
 var descriptionEl = document.getElementById("description")
+var highscoreEl = document.getElementById("highscore")
 
 
 // variable for questions
@@ -134,6 +135,104 @@ function runQuestion() {
     correctIndex = randomQuestion.correctAnswer;
 }
 
+// function that shows saved high scores
+function highScore() {
+
+    contentEL.textContent = "";
+    contentEL.setAttribute("style", "flex-direction: column;");
+    startButtonEl.style.display = "none";
+
+    timeLeft = 0;
+    updateTimer();
+
+    while (document.getElementById("saveGameDiv")) {
+        descriptionEl.removeChild(document.getElementById("saveGameDiv"));
+    }
+
+    timeEL.setAttribute("style", "display: none");
+    highscoreEl.setAttribute("style", "display: none");
+
+    var highscores = JSON.parse(localStorage.getItem("highscores"));
+
+    if (!highscores) {
+        highscores = [];
+    }
+
+    highscores.sort((a, b) => b.userScore - a.userScore);
+
+    highscores.forEach((highscore, index) => {
+        var highscoreEl = document.createElement("h4");
+        highscoreEl.textContent = `${(index + 1)}. ${highscore.userInitials}: ${highscore.userScore} points.`;
+        highscoreEl.setAttribute("style", "background-color: #999999; padding: 10px; margin: 10px 0px 0px 5px; width: 100%;");
+        contentEL.style.width = "100%";
+        contentEL.appendChild(highscoreEl);
+    })
+
+    questionsEL.removeChild(questionsEL.firstChild);
+    questionsEL.appendChild(contentEL);
+
+    descriptionEl.innerText = "Highscores";
+
+    highscoreButtons();
+}
+
+// function for creating buttons
+function highscoreButtons() {
+
+    var menuDiv = document.createElement("div");
+    menuDiv.style.display = "flex";
+    menuDiv.style.justifyContent = "center";
+    menuDiv.setAttribute("style", "margin: 50px;");
+
+    var goBackButtonEl = backButton(menuDiv);
+
+    var clearHighscoresButtonEl = clearScoresButton();
+
+    menuDiv.appendChild(goBackButtonEl);
+    menuDiv.appendChild(clearHighscoresButtonEl);
+
+    descriptionEl.appendChild(menuDiv);
+}
+
+// button for clearing highscores
+function clearScoresButton() {
+
+
+    var clearHighscoresButtonEl = document.createElement("button");
+    clearHighscoresButtonEl.textContent = "Clear highscores";
+    clearHighscoresButtonEl.addEventListener("click", function () {
+
+
+        localStorage.clear("highscores");
+
+
+        contentEL.innerHTML = "";
+    });
+
+    return clearHighscoresButtonEl;
+}
+
+// back button for returning to quiz start page
+function backButton(parentDiv) {
+
+    var goBackButtonEl = document.createElement("button");
+    goBackButtonEl.textContent = "Go Back";
+    goBackButtonEl.addEventListener("click", function () {
+
+        contentEL.innerHTML = "The following quiz will test you're knowledge on Javascript. Every wrong question will result in time being subracted from the timer. Take your time. GOOD LUCK!";
+        descriptionEl.innerHTML = "Coding Quiz Challenge";
+
+
+        startButtonEl.style.display = "flex";
+        highscoreEl.setAttribute("style", "display: flex");
+        timeEL.setAttribute("style", "display: flex");
+
+    });
+
+    return goBackButtonEl;
+}
+
+
 // stop game function, either when time is up or all questions are answered
 function stopGame () {
 
@@ -147,6 +246,8 @@ function stopGame () {
     thankYouMessage.setAttribute("id", "thankYou")
     thankYouMessage.textContent = `Final Score is ${score}`;
 
+    saveGameElements();
+
     questionsEL.appendChild(thankYouMessage);
 }
 
@@ -158,8 +259,68 @@ function scoreChange(value) {
     }
 }
 
+// 
+function saveGameElements() {
+
+    var saveDivEl = document.createElement("div");
+    saveDivEl.className = "saveGameDiv";
+    saveDivEl.id = "saveGameDiv";
+
+    var saveMessageEl = document.createElement("h4");
+    saveMessageEl.textContent = "Enter Initials:";
+    saveMessageEl.setAttribute("style", "margin-right: 10px;");
+
+    var saveNameInputEl = document.createElement("input");
+    saveNameInputEl.setAttribute("type", "text");
+    saveNameInputEl.setAttribute("style", "margin-right: 10px;");
+
+    function saveGame() {
+
+        var highscores = JSON.parse(localStorage.getItem("highscores"));
+
+        if (highscores) {
+            highscores.push({
+                userInitials: saveNameInputEl.value,
+                userScore: score
+            })
+        } else {
+            highscores = [{
+                userInitials: saveNameInputEl.value,
+                userScore: score
+            }]
+        }
+
+        localStorage.setItem("highscores", JSON.stringify(highscores));
+
+        score = 0;
+
+        if (saveDivEl) {
+            descriptionEl.removeChild(saveDivEl);
+        }
+
+        highScore();
+    }
+
+    var saveButtonEl = document.createElement("button");
+    saveButtonEl.textContent = "Submit";
+
+    saveButtonEl.addEventListener("click", saveGame);
+
+    // Add save elements to parent element
+    saveDivEl.appendChild(saveMessageEl);
+    saveDivEl.appendChild(saveNameInputEl);
+    saveDivEl.appendChild(saveButtonEl);
+
+    descriptionEl.appendChild(saveDivEl);
+}
+
 // adding eventlisteners
 function init() {
+
+    document.getElementById("highscore").addEventListener("click", function () {
+        highScore();
+    });
+
     document.getElementById("startButton").addEventListener("click", function(){
         playGame();
     });

@@ -23,7 +23,7 @@ header {
     cursor: pointer;
 }
 
-#timer { 
+.timer { 
    float: right;
    font-size: 32px;
    color: white;

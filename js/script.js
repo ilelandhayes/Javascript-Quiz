@@ -7,7 +7,7 @@ let correctIndex = null;
 var countdown = null;
 
 // variables on the page
-var timeEL = document.getElementById("timer");
+var timeEL = document.querySelector(".timer")
 var startButtonEl = document.getElementById("startButton");
 var titleEL = document.getElementById("title");
 var contentEL = document.getElementById("content");
@@ -163,7 +163,7 @@ function highScore() {
     highscores.forEach((highscore, index) => {
         var highscoreEl = document.createElement("h4");
         highscoreEl.textContent = `${(index + 1)}. ${highscore.userInitials}: ${highscore.userScore} points.`;
-        highscoreEl.setAttribute("style", "background-color: #999999; padding: 10px; margin: 10px 0px 0px 5px; width: 100%;");
+        highscoreEl.setAttribute("style", "background-color: #999999; display-inline: block; padding: 5px 0px 5px 10px; margin: 10px 0px 0px 5px; width: 100%;");
         contentEL.style.width = "100%";
         contentEL.appendChild(highscoreEl);
     })
@@ -224,8 +224,8 @@ function backButton(parentDiv) {
 
 
         startButtonEl.style.display = "flex";
-        highscoreEl.setAttribute("style", "display: flex");
-        timeEL.setAttribute("style", "display: flex");
+        highscoreEl.setAttribute("style", "display-inline: block");
+        timeEL.setAttribute("style", "display-inline: block");
 
     });
 

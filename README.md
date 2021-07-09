@@ -2,7 +2,9 @@
 
 # Description
     
-    * This is a Javascript Quiz that test you're knowledge on Javascript. Meant for fellow classmates to take the quiz and judge if their knowledge is sufficient.
+    * This is a Javascript Quiz that test you're knowledge on Javascript. Meant for
+     fellow classmates to take the quiz and 
+     judge if their knowledge is sufficient.
 
 # Code Description
 
